@@ -1,19 +1,16 @@
 # ============================================================
 #  ~/.bookrecommender — Dockerfile
-#  Multi-stage build for a slim production image
+#  Single-stage build for a slim production image
 # ============================================================
 
 # ── Base image ──────────────────────────────────────────────
-FROM python:3.11-slim AS base
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# ── Install system dependencies ─────────────────────────────
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
 # ── Install Python dependencies ─────────────────────────────
+# scikit-learn, numpy, etc. ship pre-built wheels for x86_64,
+# so gcc/system-build tools are not needed.
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
