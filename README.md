@@ -37,7 +37,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app opens at **goodbook-recommender∙main∙app.py.streamlit**. On first run, it automatically downloads the Goodbooks-10k dataset (~6M ratings). If the download fails, a realistic synthetic dataset is generated instantly.
+The app opens at **(https://aadityabhuree-goodbook-recommender-app-jqagvs.streamlit.app/)**. On first run, it automatically downloads the Goodbooks-10k dataset (~6M ratings). If the download fails, a realistic synthetic dataset is generated instantly.
 
 ---
 
