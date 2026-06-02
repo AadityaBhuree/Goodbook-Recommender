@@ -1,17 +1,13 @@
 <div align="center">
-
-```
-╔═══════════════════════════════════════════════════════════════╗
-║              ~/.bookrecommender                              ║
-║  Intelligent Book Recommendation System — ML-Powered          ║
-╚═══════════════════════════════════════════════════════════════╝
-```
+<img width="100%" src="https://raw.githubusercontent.com/AadityaBhuree/Goodbook-Recommender/main/banner.svg" alt="~/.bookrecommender" />
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=Streamlit&logoColor=white)](https://streamlit.io)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
 [![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/AadityaBhuree/Goodbook-Recommender?style=flat-square&logo=github&logoColor=white&color=00FFFF)](https://github.com/AadityaBhuree/Goodbook-Recommender/stargazers)
+[![Profile](https://img.shields.io/badge/Profile-AadityaBhuree-8B5CF6?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree)
 
 **Discover your next great read with 3 ML-powered recommendation engines**
 
