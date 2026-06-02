@@ -377,17 +377,17 @@ def render_book_card_detailed(
     col1, col2 = st.columns([1, 3])
     with col1:
         st.markdown(
-            """
+            f"""
             <div style="
                 width: 100%;
                 aspect-ratio: 2/3;
-                background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+                background: linear-gradient(135deg, rgba(0,255,255,0.05) 0%, rgba(139,92,246,0.08) 100%);
                 border-radius: 8px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-size: 4rem;
-                border: 1px solid #e0d0c0;
+                border: 1px solid rgba(255,255,255,0.06);
             ">📚</div>
             """,
             unsafe_allow_html=True,
@@ -400,7 +400,7 @@ def render_book_card_detailed(
                 <div style="font-size: 0.9rem; color: {COLORS['text_secondary']}; margin: 0.3rem 0;">by <strong>{author}</strong></div>
                 <div style="margin: 0.3rem 0;">
                     <span class="book-card-rating">{stars(rating)} {rating:.1f}</span>
-                    <span style="font-size: 0.8rem; color: #999;">({format_number(rating_count)} ratings{year_str}{pub_str})</span>
+                    <span style="font-size: 0.8rem; color: {COLORS['rating']};">({format_number(rating_count)} ratings{year_str}{pub_str})</span>
                 </div>
                 <div style="margin: 0.3rem 0;">{genre_str}</div>
             </div>
