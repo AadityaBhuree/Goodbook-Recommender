@@ -301,10 +301,13 @@ def format_number(num: int) -> str:
 
 
 def render_hero() -> None:
-    """Render the hero section on the home page."""
+    """Render the hero section on the home page with banner SVG."""
     st.markdown(
         f"""
-        <div style="padding: 2rem 0;">
+        <div style="padding: 1rem 0; text-align: center;">
+            <img src="https://raw.githubusercontent.com/AadityaBhuree/Goodbook-Recommender/main/banner.svg"
+                 alt="~/.bookrecommender"
+                 style="width: 100%; max-width: 900px; border-radius: 8px; margin-bottom: 1.5rem;" />
             <div class="hero-title">{APP_TITLE}</div>
             <div class="hero-subtitle">{APP_SUBTITLE}</div>
             <div class="hero-description">{APP_DESCRIPTION}</div>
