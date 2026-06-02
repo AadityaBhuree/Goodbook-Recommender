@@ -1,0 +1,42 @@
+# ============================================================
+#  ~/.bookrecommender — .dockerignore
+# ============================================================
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Python
+venv
+.venv
+env
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data (too large for build context — mounted as volume)
+data/books.csv
+data/ratings.csv
+data/users.csv
+data/cache/
+
+# Temp files
+*.log
+*.tmp
