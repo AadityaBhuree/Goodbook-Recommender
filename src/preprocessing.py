@@ -64,7 +64,11 @@ def clean_users(users: pd.DataFrame, config: RecommenderConfig) -> pd.DataFrame:
     if "age" in df.columns:
         df["age"] = pd.to_numeric(df["age"], errors="coerce")
         df.loc[(df["age"] < 5) | (df["age"] > 120), "age"] = np.nan
-        df["age"] = df["age"].fillna(df["age"].median())
+        # Guard against all-NaN column (e.g. Goodbooks-10k has no user metadata)
+        if df["age"].notna().any():
+            df["age"] = df["age"].fillna(df["age"].median())
+        else:
+            df["age"] = df["age"].fillna(30)  # Reasonable default
 
     # Clean location
     if "location" in df.columns:
@@ -139,17 +143,27 @@ def compute_book_stats(
     If books already has avg_rating / rating_count (e.g. Goodbooks-10k),
     use those; otherwise compute from the ratings dataframe.
     """
-    # Check if we already have the stats (Goodbooks-10k provides them)
-    has_precomputed = "avg_rating" in books.columns and "rating_count" in books.columns
+    books = books.copy()
 
-    if has_precomputed and books["avg_rating"].notna().sum() > 0:
+    # Check if we already have the stats (Goodbooks-10k provides them)
+    has_precomputed = (
+        "avg_rating" in books.columns
+        and "rating_count" in books.columns
+        and books["avg_rating"].notna().sum() > 0
+    )
+
+    if has_precomputed:
         # Already have good data — just ensure clean values
-        books = books.copy()
         books["avg_rating"] = pd.to_numeric(books["avg_rating"], errors="coerce").fillna(0).round(2)
         books["rating_count"] = pd.to_numeric(books["rating_count"], errors="coerce").fillna(0).astype(int)
         return books
 
     # Compute from ratings dataframe
+    if ratings.empty:
+        books["avg_rating"] = 0.0
+        books["rating_count"] = 0
+        return books
+
     stats = (
         ratings.groupby("isbn")
         .agg(avg_rating=("rating", "mean"), rating_count=("rating", "count"))

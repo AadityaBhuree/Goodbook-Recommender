@@ -4,13 +4,12 @@ import sys
 from pathlib import Path
 
 import streamlit as st
-import pandas as pd
-import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.ui import apply_styling, render_recommendation_row, sidebar_footer
 from src.config import COLORS
+from src.app_init import ensure_collab_fitted
 
 st.set_page_config(page_title="Get Recommendations", page_icon="🎯", layout="wide")
 
@@ -27,6 +26,9 @@ books = st.session_state.books
 ratings = st.session_state.ratings
 popularity = st.session_state.popularity
 content = st.session_state.content
+
+# Ensure collaborative model is fitted on demand (it's expensive — ~30s for 10k books)
+ensure_collab_fitted()
 collaborative = st.session_state.collaborative
 
 # ── Header ───────────────────────────────────────────────────────────────────

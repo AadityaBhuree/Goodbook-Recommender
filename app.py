@@ -22,6 +22,7 @@ from src.recommenders.popularity import PopularityRecommender
 from src.recommenders.content_based import ContentBasedRecommender
 from src.recommenders.collaborative import CollaborativeRecommender
 from src.config import RecommenderConfig
+from src.app_init import ensure_collab_fitted
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,41 +45,64 @@ if "initialized" not in st.session_state:
     st.session_state.popularity = None
     st.session_state.content = None
     st.session_state.collaborative = None
+    st.session_state.collab_ready = False
+    st.session_state._stats = None
 
 
 def load_data() -> None:
     """Load and preprocess all data, then initialize recommenders."""
     config = st.session_state.config
+    status = st.status("📚 Initializing BookRecommender...", expanded=True)
 
-    with st.spinner("📚 Loading book data... This may take a moment on first run."):
+    with status:
+        st.write("📚 Loading book data...")
         raw_books, raw_users, raw_ratings = load_and_cache_data(config)
+        st.write("✅ Data loaded")
 
-    with st.spinner("🧹 Preprocessing data..."):
+        st.write("🧹 Preprocessing data...")
         books, users, ratings = preprocess_pipeline(
             raw_books, raw_users, raw_ratings, config
         )
+        st.write("✅ Preprocessing complete")
 
     st.session_state.books = books
     st.session_state.ratings = ratings
     st.session_state.users = users
 
-    with st.spinner("🤖 Training recommendation models..."):
-        st.session_state.popularity = PopularityRecommender(books, ratings)
-        st.session_state.content = ContentBasedRecommender(books, ratings)
-        st.session_state.collaborative = CollaborativeRecommender(books, ratings)
-        st.session_state.popularity.fit()
-        st.session_state.content.fit()
-        # Collaborative may take a while for large datasets
-        if len(books) < 5000:
-            st.session_state.collaborative.fit()
-        else:
-            logger.info("Skipping collaborative fit for large dataset (build on demand).")
+    # Show a progress bar for model training
+    progress_bar = st.progress(0.0, text="🤖 Training popularity model...")
+    st.session_state.popularity = PopularityRecommender(books, ratings)
+    st.session_state.popularity.fit()
+    progress_bar.progress(0.35, text="🤖 Training content-based model...")
+    st.session_state.content = ContentBasedRecommender(books, ratings)
+    st.session_state.content.fit()
+    progress_bar.progress(0.65, text="⏭️ Collaborative model will load on demand when you visit the Recommendations tab.")
+
+    # Always initialize (but don't fit) collaborative — it'll fit on first use
+    st.session_state.collaborative = CollaborativeRecommender(books, ratings)
+    st.session_state.collab_ready = False
+
+    progress_bar.progress(1.0, text="✅ Initialization complete!")
+    progress_bar.empty()
+
+    # Pre-compute stats once to avoid re-hashing large DataFrames on every re-render
+    st.session_state._stats = {
+        "n_books": len(books),
+        "n_users": ratings["user_id"].nunique(),
+        "n_ratings": len(ratings),
+        "avg_rating": books["avg_rating"].mean(),
+    }
 
     st.session_state.initialized = True
     logger.info(
         f"App initialized: {len(books)} books, "
         f"{len(ratings)} ratings from {ratings['user_id'].nunique()} users."
     )
+
+
+# Stats are computed once during load_data() and stored in session state
+# to avoid re-hashing large DataFrames on every re-render.
+# See st.session_state._stats (set in load_data()).
 
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
@@ -124,15 +148,14 @@ with st.sidebar:
             st.session_state.initialized = False
             st.rerun()
 
-    # Show data stats in sidebar if initialized
-    if st.session_state.initialized and st.session_state.books is not None:
+    # Show data stats in sidebar if initialized (using pre-computed stats)
+    if st.session_state.initialized and st.session_state._stats is not None:
+        s = st.session_state._stats
         st.sidebar.markdown("---")
         st.sidebar.markdown("**📊 Dataset Overview**")
-        st.sidebar.markdown(f"- Books: **{len(st.session_state.books):,}**")
-        st.sidebar.markdown(f"- Ratings: **{len(st.session_state.ratings):,}**")
-        st.sidebar.markdown(
-            f"- Users: **{st.session_state.ratings['user_id'].nunique():,}**"
-        )
+        st.sidebar.markdown(f"- Books: **{s['n_books']:,}**")
+        st.sidebar.markdown(f"- Ratings: **{s['n_ratings']:,}**")
+        st.sidebar.markdown(f"- Users: **{s['n_users']:,}**")
 
     sidebar_footer()
 
@@ -199,22 +222,23 @@ if not st.session_state.initialized:
     )
 else:
     # ── Dashboard (when initialized) ──────────────────────────────────────────
-    render_hero()
+    # Note: hero renders only on the landing page, not here (avoids redundancy)
 
     books = st.session_state.books
     ratings = st.session_state.ratings
 
-    # Stats row
+    # Stats row (pre-computed during load_data — no DataFrame hashing on re-render)
+    stats = st.session_state._stats
+
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        render_stat_card(f"{len(books):,}", "Books in Catalog")
+        render_stat_card(f"{stats['n_books']:,}", "Books in Catalog")
     with col2:
-        render_stat_card(f"{ratings['user_id'].nunique():,}", "Active Readers")
+        render_stat_card(f"{stats['n_users']:,}", "Active Readers")
     with col3:
-        render_stat_card(f"{len(ratings):,}", "Total Ratings")
+        render_stat_card(f"{stats['n_ratings']:,}", "Total Ratings")
     with col4:
-        avg_rating = books["avg_rating"].mean()
-        render_stat_card(f"{avg_rating:.1f}", "★ Avg Rating")
+        render_stat_card(f"{stats['avg_rating']:.1f}", "★ Avg Rating")
 
     st.markdown("<br>", unsafe_allow_html=True)
 

@@ -367,6 +367,10 @@ def render_book_card_detailed(
 
 def render_recommendation_row(rank: int, title: str, author: str, score: float, rating: float) -> None:
     """Render a single recommendation row."""
+    # Normalize score to a 0-100 percentage for the score bar.
+    # Scores typically fall in 0-1 range for similarity measures.
+    # We use a soft scale: clamp to 0-1 then multiply by 100.
+    score_pct = max(0.0, min(score, 1.0)) * 100.0
     st.markdown(
         f"""
         <div class="rec-card" style="display: flex; align-items: center; gap: 1rem;">
@@ -378,7 +382,7 @@ def render_recommendation_row(rank: int, title: str, author: str, score: float, 
                     <span style="color: {COLORS['rating']};">{stars(rating)} {rating:.1f}</span>
                     <span class="rec-score"> · Score: {score:.3f}</span>
                 </div>
-                <div class="score-bar" style="width: {min(score * 100, 100)}%;"></div>
+                <div class="score-bar" style="width: {score_pct:.0f}%;"></div>
             </div>
         </div>
         """,
