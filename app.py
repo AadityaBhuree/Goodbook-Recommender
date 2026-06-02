@@ -112,8 +112,9 @@ with st.sidebar:
         f"""
         <div style="text-align: center; padding: 1rem 0;">
             <div style="font-size: 3rem;">📚</div>
-            <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; 
-                 font-weight: 600; color: #8B4513;">{APP_TITLE}</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; 
+                 font-weight: 600; color: #00FFFF;">{APP_TITLE}</div>
+            <div style="font-size: 0.75rem; color: #9CA3AF;">~/.recommender</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -180,20 +181,21 @@ if not st.session_state.initialized:
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.markdown(
-        """
+        f"""
         <div style="
-            background: white;
-            border-radius: 12px;
+            background: #161B22;
+            border-radius: 10px;
             padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 500px;
             margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.06);
         ">
-            <div style="font-size: 1.2rem; font-weight: 600; color: #2C1810; margin-bottom: 0.5rem;">
-                Get Started
+            <div style="font-size: 1.2rem; font-weight: 600; color: #00FFFF; margin-bottom: 0.5rem;">
+                ~/get_started
             </div>
-            <div style="color: #6B4F3A; margin-bottom: 1rem;">
+            <div style="color: #9CA3AF; margin-bottom: 1rem;">
                 Click the button below to load the dataset and initialize 
                 the recommendation engine. Your first run will download data 
                 automatically.
@@ -212,8 +214,8 @@ if not st.session_state.initialized:
             st.rerun()
 
     st.markdown(
-        """
-        <div style="text-align: center; margin-top: 2rem; color: #999; font-size: 0.85rem;">
+        f"""
+        <div style="text-align: center; margin-top: 2rem; color: #9CA3AF; font-size: 0.85rem;">
             <p>The app will download the Book-Crossing dataset (~5MB) on first run.<br>
             If download fails, synthetic data will be generated automatically.</p>
         </div>

@@ -14,60 +14,75 @@ def get_custom_css() -> str:
     """Return the custom CSS for the app."""
     return f"""
     <style>
-        /* Main app styling */
+        /* ── Main app styling ────────────────────────────────────── */
         .stApp {{
-            background: linear-gradient(135deg, {COLORS["background"]} 0%, #FFF8E7 100%);
+            background: {COLORS["background"]};
         }}
 
-        /* Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        /* ── Typography ──────────────────────────────────────────── */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
-        h1, h2, h3, h4 {{
-            font-family: 'Playfair Display', serif !important;
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: 'Inter', -apple-system, sans-serif !important;
             color: {COLORS["text"]} !important;
+            letter-spacing: -0.02em;
         }}
 
-        /* Hero section */
+        p, li, div, span {{
+            color: {COLORS["text"]};
+        }}
+
+        code {{
+            font-family: 'JetBrains Mono', monospace !important;
+            background: rgba(0, 255, 255, 0.08) !important;
+            color: #00FFFF !important;
+            border-radius: 4px !important;
+            padding: 1px 5px !important;
+        }}
+
+        /* ── Hero section ────────────────────────────────────────── */
         .hero-title {{
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.8rem;
             font-weight: 700;
             color: {COLORS["primary"]};
             margin-bottom: 0.5rem;
             line-height: 1.2;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
         }}
         .hero-subtitle {{
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
             color: {COLORS["text_secondary"]};
             font-weight: 400;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }}
         .hero-description {{
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: {COLORS["text_secondary"]};
             max-width: 600px;
             line-height: 1.6;
         }}
 
-        /* Book card */
+        /* ── Book card ───────────────────────────────────────────── */
         .book-card {{
             background: {COLORS["surface"]};
-            border-radius: 12px;
-            padding: 1.2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.25s ease;
             height: 100%;
-            border: 1px solid rgba(139, 69, 19, 0.08);
+            border: 1px solid rgba(255,255,255,0.06);
         }}
         .book-card:hover {{
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(139, 69, 19, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 255, 255, 0.08);
+            border-color: rgba(0, 255, 255, 0.2);
         }}
         .book-card-title {{
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: {COLORS["text"]};
             margin-bottom: 0.3rem;
             display: -webkit-box;
@@ -76,86 +91,82 @@ def get_custom_css() -> str:
             overflow: hidden;
         }}
         .book-card-author {{
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: {COLORS["text_secondary"]};
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }}
         .book-card-meta {{
-            font-size: 0.75rem;
-            color: #999;
+            font-size: 0.7rem;
+            color: {COLORS["text_secondary"]};
         }}
         .book-card-rating {{
             color: {COLORS["rating"]};
             font-weight: 600;
-            font-size: 0.9rem;
-        }}
-        .book-card-year {{
-            font-size: 0.75rem;
-            color: #999;
+            font-size: 0.85rem;
         }}
         .book-cover-placeholder {{
             width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            height: 140px;
+            background: linear-gradient(135deg, rgba(0,255,255,0.05) 0%, rgba(139,92,246,0.08) 100%);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            margin-bottom: 0.8rem;
-            border: 1px solid #e0d0c0;
+            margin-bottom: 0.7rem;
+            border: 1px solid rgba(255,255,255,0.06);
         }}
 
-        /* Stats cards */
+        /* ── Stats cards ─────────────────────────────────────────── */
         .stat-card {{
             background: {COLORS["surface"]};
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1.3rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border-left: 4px solid {COLORS["primary"]};
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-left: 3px solid {COLORS["primary"]};
         }}
         .stat-number {{
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 700;
             color: {COLORS["primary"]};
-            font-family: 'Playfair Display', serif;
+            font-family: 'JetBrains Mono', monospace;
         }}
         .stat-label {{
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: {COLORS["text_secondary"]};
-            margin-top: 0.3rem;
+            margin-top: 0.2rem;
         }}
 
-        /* Section header */
+        /* ── Section header ──────────────────────────────────────── */
         .section-header {{
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
             font-weight: 600;
-            color: {COLORS["text"]};
+            color: {COLORS["primary"]};
             margin: 1.5rem 0 1rem 0;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid {COLORS["secondary"]};
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
         }}
 
-        /* Rating stars */
+        /* ── Rating stars ────────────────────────────────────────── */
         .rating-stars {{
             color: {COLORS["rating"]};
             letter-spacing: 2px;
         }}
 
-        /* Recommendation card variant */
+        /* ── Recommendation card ─────────────────────────────────── */
         .rec-card {{
-            background: linear-gradient(135deg, {COLORS["surface"]}, #FFF8E7);
-            border-radius: 12px;
+            background: linear-gradient(135deg, {COLORS["surface"]}, #1A1F2E);
+            border-radius: 10px;
             padding: 1rem 1.2rem;
             margin-bottom: 0.5rem;
-            border-left: 4px solid {COLORS["accent"]};
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            border-left: 3px solid {COLORS["accent"]};
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }}
         .rec-rank {{
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
             font-weight: 700;
             color: {COLORS["secondary"]};
             min-width: 36px;
@@ -165,44 +176,55 @@ def get_custom_css() -> str:
             color: {COLORS["text"]};
         }}
         .rec-score {{
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: {COLORS["text_secondary"]};
         }}
 
-        /* Button styling */
+        /* ── Buttons ─────────────────────────────────────────────── */
         .stButton > button {{
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 500;
             transition: all 0.2s;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            background: rgba(0, 255, 255, 0.05) !important;
+            color: {COLORS["text"]} !important;
         }}
         .stButton > button:hover {{
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.15);
+            border-color: {COLORS["primary"]};
         }}
 
-        /* Sidebar styling */
+        /* ── Sidebar ─────────────────────────────────────────────── */
         section[data-testid="stSidebar"] {{
-            background: linear-gradient(180deg, #FAF3E0 0%, #F5E6D3 100%);
+            background: linear-gradient(180deg, {COLORS["surface"]} 0%, #111827 100%);
+            border-right: 1px solid rgba(255,255,255,0.05);
         }}
         section[data-testid="stSidebar"] .stButton > button {{
             width: 100%;
         }}
+        section[data-testid="stSidebar"] .stMarkdown {{
+            color: {COLORS["text_secondary"]};
+        }}
 
-        /* Tabs */
+        /* ── Tabs ────────────────────────────────────────────────── */
         .stTabs [data-baseweb="tab-list"] {{
             gap: 2px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }}
         .stTabs [data-baseweb="tab"] {{
-            border-radius: 8px 8px 0 0;
+            border-radius: 6px 6px 0 0;
             padding: 0.5rem 1rem;
             font-weight: 500;
+            color: {COLORS["text_secondary"]} !important;
         }}
         .stTabs [aria-selected="true"] {{
             background-color: {COLORS["surface"]} !important;
+            color: {COLORS["primary"]} !important;
             border-top: 2px solid {COLORS["primary"]} !important;
         }}
 
-        /* Progress/Score bar */
+        /* ── Score bar ───────────────────────────────────────────── */
         .score-bar {{
             height: 4px;
             background: linear-gradient(90deg, {COLORS["secondary"]}, {COLORS["primary"]});
@@ -210,19 +232,41 @@ def get_custom_css() -> str:
             margin-top: 4px;
         }}
 
-        /* Footer */
+        /* ── Footer ──────────────────────────────────────────────── */
         .footer {{
             text-align: center;
-            color: #999;
-            font-size: 0.8rem;
+            color: {COLORS["text_secondary"]};
+            font-size: 0.78rem;
             padding: 2rem 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(255,255,255,0.05);
             margin-top: 3rem;
         }}
 
-        /* Spinner */
+        /* ── Spinner ─────────────────────────────────────────────── */
         .stSpinner > div > div {{
             border-color: {COLORS["primary"]} transparent transparent transparent !important;
+        }}
+
+        /* ── Status / Info box ───────────────────────────────────── */
+        .stAlert {{
+            background: {COLORS["surface"]} !important;
+            border: 1px solid rgba(255,255,255,0.06) !important;
+            border-radius: 8px !important;
+        }}
+
+        /* ── Select box / Input ──────────────────────────────────── */
+        .stSelectbox, .stTextInput, .stSlider {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        /* ── Progress bar ────────────────────────────────────────── */
+        .stProgress > div > div > div > div {{
+            background: linear-gradient(90deg, {COLORS["secondary"]}, {COLORS["primary"]}) !important;
+        }}
+
+        /* ── Dataframe ───────────────────────────────────────────── */
+        .stDataFrame {{
+            background: {COLORS["surface"]} !important;
         }}
     </style>
     """
@@ -352,8 +396,8 @@ def render_book_card_detailed(
         st.markdown(
             f"""
             <div>
-                <div style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: {COLORS['text']};">{title}</div>
-                <div style="font-size: 0.95rem; color: {COLORS['text_secondary']}; margin: 0.3rem 0;">by <strong>{author}</strong></div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: {COLORS['text']};">{title}</div>
+                <div style="font-size: 0.9rem; color: {COLORS['text_secondary']}; margin: 0.3rem 0;">by <strong>{author}</strong></div>
                 <div style="margin: 0.3rem 0;">
                     <span class="book-card-rating">{stars(rating)} {rating:.1f}</span>
                     <span style="font-size: 0.8rem; color: #999;">({format_number(rating_count)} ratings{year_str}{pub_str})</span>
@@ -400,8 +444,8 @@ def sidebar_footer() -> None:
     st.sidebar.markdown("---")
     st.sidebar.markdown(
         f"""
-        <div style="text-align: center; font-size: 0.75rem; color: #999;">
-            <p>Built with ❤️ using Streamlit & scikit-learn</p>
+        <div style="text-align: center; font-size: 0.72rem; color: #9CA3AF;">
+            <p>Built with ❤️ using Streamlit &amp; scikit-learn</p>
             <p>{APP_TITLE} v1.0</p>
         </div>
         """,

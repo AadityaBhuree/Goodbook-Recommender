@@ -58,15 +58,15 @@ APP_DESCRIPTION = (
 )
 
 COLORS = {
-    "primary": "#8B4513",  # SaddleBrown
-    "secondary": "#DAA520",  # Goldenrod
-    "accent": "#2E8B57",  # SeaGreen
-    "background": "#FAF3E0",  # Cream
-    "surface": "#FFFFFF",
-    "text": "#2C1810",  # Dark brown
-    "text_secondary": "#6B4F3A",
-    "error": "#D32F2F",
-    "rating": "#FFA000",
+    "primary": "#00FFFF",  # Cyan — headings, accents
+    "secondary": "#8B5CF6",  # Purple — secondary accents, borders
+    "accent": "#10B981",  # Emerald — recommendation cards, success
+    "background": "#0D1117",  # Near-black — page background
+    "surface": "#161B22",  # Dark card surface
+    "text": "#E5E7EB",  # Light gray — body text
+    "text_secondary": "#9CA3AF",  # Muted text
+    "error": "#EF4444",  # Red — errors
+    "rating": "#F59E0B",  # Amber — star ratings
 }
 
 # Streamlit page config

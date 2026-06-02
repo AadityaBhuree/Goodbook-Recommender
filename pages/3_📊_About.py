@@ -21,8 +21,9 @@ apply_styling()
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; 
-             font-weight: 600; color: {COLORS['text']};">ℹ️  About {APP_TITLE}</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
+             font-weight: 600; color: {COLORS['primary']};">~/.about ℹ️</div>
+        <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">{APP_TITLE} — v1.0</div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -119,9 +120,9 @@ with col2:
             padding: 1.5rem;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         ">
-            <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; 
-                 font-weight: 600; color: {COLORS['text']}; margin-bottom: 1rem;">
-                Quick Info
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; 
+                 font-weight: 600; color: {COLORS['primary']}; margin-bottom: 1rem;">
+                ~ quick_info
             </div>
             <table style="width: 100%; font-size: 0.9rem;">
                 <tr>
@@ -165,9 +166,9 @@ with col2:
                 padding: 1.5rem;
                 box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             ">
-                <div style="font-family: 'Playfair Display', serif; font-size: 1.3rem; 
-                     font-weight: 600; color: {COLORS['text']}; margin-bottom: 1rem;">
-                    Current Data Stats
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; 
+                     font-weight: 600; color: {COLORS['primary']}; margin-bottom: 1rem;">
+                    ~ data_stats
                 </div>
                 <table style="width: 100%; font-size: 0.9rem;">
                     <tr>
@@ -197,7 +198,7 @@ with col2:
 st.markdown("---")
 st.markdown(
     f"""
-    <div style="text-align: center; color: #999; font-size: 0.85rem; padding: 1rem;">
+    <div style="text-align: center; color: #9CA3AF; font-size: 0.85rem; padding: 1rem;">
         <p>
             Built as a reference implementation of recommendation system algorithms.
             <br>

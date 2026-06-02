@@ -41,8 +41,8 @@ min_year, max_year = get_year_range(books)
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; 
-             font-weight: 600; color: {COLORS['text']};">📖  Explore Books</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
+             font-weight: 600; color: {COLORS['primary']};">~/.explore 📖</div>
         <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">
             Browse our catalog of {len(books):,} books. Search, filter, and discover your next read.
         </div>

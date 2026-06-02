@@ -36,8 +36,8 @@ collaborative = st.session_state.collaborative
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; 
-             font-weight: 600; color: {COLORS['text']};">🎯  Get Recommendations</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
+             font-weight: 600; color: {COLORS['primary']};">~/.recommendations 🎯</div>
         <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">
             Three powerful recommendation methods — each offers a unique way to discover books you'll love.
         </div>
