@@ -21,8 +21,7 @@ apply_styling()
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
-             font-weight: 600; color: {COLORS['primary']};">~/.about ℹ️</div>
+        <div style="font-size: 1.8rem; font-weight: 600; color: {COLORS['primary']};">ℹ️ About</div>
         <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">{APP_TITLE} — v1.0</div>
     </div>
     """,
@@ -114,36 +113,35 @@ with col2:
     # Project info card
     st.markdown(
         f"""
-        <div style="
-            background: {COLORS['surface']};
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        ">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; 
-                 font-weight: 600; color: {COLORS['primary']}; margin-bottom: 1rem;">
-                ~ quick_info
+        <div class="book-card" style="padding: 1.5rem;">
+            <div style="font-weight: 600; font-size: 1.1rem; 
+                 color: {COLORS['primary']}; margin-bottom: 1rem;">
+                ℹ️ Quick Info
             </div>
             <table style="width: 100%; font-size: 0.9rem;">
                 <tr>
-                    <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Version</td>
-                    <td style="padding: 0.4rem 0; font-weight: 500;">1.0.0</td>
+                    <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Version</td>
+                    <td style="padding: 0.5rem 0; font-weight: 500;">1.0.0</td>
                 </tr>
+                <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                 <tr>
-                    <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Framework</td>
-                    <td style="padding: 0.4rem 0; font-weight: 500;">Streamlit</td>
+                    <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Framework</td>
+                    <td style="padding: 0.5rem 0; font-weight: 500;">Streamlit</td>
                 </tr>
+                <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                 <tr>
-                    <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">ML Engine</td>
-                    <td style="padding: 0.4rem 0; font-weight: 500;">scikit-learn</td>
+                    <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">ML Engine</td>
+                    <td style="padding: 0.5rem 0; font-weight: 500;">scikit-learn</td>
                 </tr>
+                <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                 <tr>
-                    <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Methods</td>
-                    <td style="padding: 0.4rem 0; font-weight: 500;">3 (Pop, Content, Collab)</td>
+                    <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Methods</td>
+                    <td style="padding: 0.5rem 0; font-weight: 500;">3 (Pop, Content, Collab)</td>
                 </tr>
+                <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                 <tr>
-                    <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Data Source</td>
-                    <td style="padding: 0.4rem 0; font-weight: 500;">Goodbooks-10k Dataset</td>
+                    <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Data Source</td>
+                    <td style="padding: 0.5rem 0; font-weight: 500;">Goodbooks-10k</td>
                 </tr>
             </table>
         </div>
@@ -160,32 +158,30 @@ with col2:
 
         st.markdown(
             f"""
-            <div style="
-                background: {COLORS['surface']};
-                border-radius: 12px;
-                padding: 1.5rem;
-                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            ">
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; 
-                     font-weight: 600; color: {COLORS['primary']}; margin-bottom: 1rem;">
-                    ~ data_stats
+            <div class="book-card" style="padding: 1.5rem;">
+                <div style="font-weight: 600; font-size: 1.1rem; 
+                     color: {COLORS['primary']}; margin-bottom: 1rem;">
+                    📊 Data Stats
                 </div>
                 <table style="width: 100%; font-size: 0.9rem;">
                     <tr>
-                        <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Books</td>
-                        <td style="padding: 0.4rem 0; font-weight: 500;">{len(books):,}</td>
+                        <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Books</td>
+                        <td style="padding: 0.5rem 0; font-weight: 500;">{len(books):,}</td>
                     </tr>
+                    <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                     <tr>
-                        <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Ratings</td>
-                        <td style="padding: 0.4rem 0; font-weight: 500;">{len(ratings):,}</td>
+                        <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Ratings</td>
+                        <td style="padding: 0.5rem 0; font-weight: 500;">{len(ratings):,}</td>
                     </tr>
+                    <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                     <tr>
-                        <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Users</td>
-                        <td style="padding: 0.4rem 0; font-weight: 500;">{ratings['user_id'].nunique():,}</td>
+                        <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Users</td>
+                        <td style="padding: 0.5rem 0; font-weight: 500;">{ratings['user_id'].nunique():,}</td>
                     </tr>
+                    <tr><td colspan="2" style="border-bottom: 1px solid {COLORS['border']};"></td></tr>
                     <tr>
-                        <td style="padding: 0.4rem 0; color: {COLORS['text_secondary']};">Avg Rating</td>
-                        <td style="padding: 0.4rem 0; font-weight: 500;">{books['avg_rating'].mean():.2f}</td>
+                        <td style="padding: 0.5rem 0.5rem 0.5rem 0; color: {COLORS['text_secondary']};">Avg Rating</td>
+                        <td style="padding: 0.5rem 0; font-weight: 500;">{books['avg_rating'].mean():.2f}</td>
                     </tr>
                 </table>
             </div>
@@ -198,7 +194,7 @@ with col2:
 st.markdown("---")
 st.markdown(
     f"""
-    <div style="text-align: center; color: #9CA3AF; font-size: 0.85rem; padding: 1rem;">
+    <div style="text-align: center; color: {COLORS['text_secondary']}; font-size: 0.85rem; padding: 1rem;">
         <p>
             Built as a reference implementation of recommendation system algorithms.
             <br>

@@ -36,8 +36,7 @@ collaborative = st.session_state.collaborative
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
-             font-weight: 600; color: {COLORS['primary']};">~/.recommendations 🎯</div>
+        <div style="font-size: 1.8rem; font-weight: 600; color: {COLORS['primary']};">🎯 Get Recommendations</div>
         <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">
             Three powerful recommendation methods — each offers a unique way to discover books you'll love.
         </div>
@@ -51,16 +50,16 @@ st.markdown(
 st.markdown(
     f"""
     <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-        <span style="background: {COLORS['primary']}15; padding: 0.3rem 0.8rem; border-radius: 20px; 
-              font-size: 0.85rem; color: {COLORS['primary']}; border: 1px solid {COLORS['primary']}30;">
+        <span style="background: {COLORS['surface']}; padding: 0.3rem 0.8rem; border-radius: 20px; 
+              font-size: 0.85rem; color: {COLORS['text_secondary']}; border: 1px solid {COLORS['border']};">
             🔥 Popularity-Based
         </span>
-        <span style="background: {COLORS['accent']}15; padding: 0.3rem 0.8rem; border-radius: 20px; 
-              font-size: 0.85rem; color: {COLORS['accent']}; border: 1px solid {COLORS['accent']}30;">
+        <span style="background: {COLORS['surface']}; padding: 0.3rem 0.8rem; border-radius: 20px; 
+              font-size: 0.85rem; color: {COLORS['text_secondary']}; border: 1px solid {COLORS['border']};">
             📝 Content-Based
         </span>
-        <span style="background: {COLORS['secondary']}15; padding: 0.3rem 0.8rem; border-radius: 20px; 
-              font-size: 0.85rem; color: {COLORS['secondary']}; border: 1px solid {COLORS['secondary']}30;">
+        <span style="background: {COLORS['surface']}; padding: 0.3rem 0.8rem; border-radius: 20px; 
+              font-size: 0.85rem; color: {COLORS['text_secondary']}; border: 1px solid {COLORS['border']};">
             👥 Collaborative Filtering
         </span>
     </div>

@@ -8,7 +8,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.ui import apply_styling, render_book_card_detailed, sidebar_footer
+from src.ui import apply_styling, sidebar_footer, stars, format_number
 from src.config import COLORS
 
 st.set_page_config(page_title="Explore Books", page_icon="📖", layout="wide")
@@ -41,8 +41,7 @@ min_year, max_year = get_year_range(books)
 st.markdown(
     f"""
     <div style="padding: 1rem 0;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; 
-             font-weight: 600; color: {COLORS['primary']};">~/.explore 📖</div>
+        <div style="font-size: 1.8rem; font-weight: 600; color: {COLORS['primary']};">📖 Explore Books</div>
         <div style="color: {COLORS['text_secondary']}; font-size: 1rem;">
             Browse our catalog of {len(books):,} books. Search, filter, and discover your next read.
         </div>
@@ -199,14 +198,19 @@ else:
         cols = st.columns(3)
         for col_idx, (_, book) in enumerate(row.iterrows()):
             with cols[col_idx]:
-                render_book_card_detailed(
-                    title=book["title"],
-                    author=book.get("author", "Unknown"),
-                    rating=book["avg_rating"],
-                    rating_count=book["rating_count"],
-                    year=book.get("year"),
-                    publisher=book.get("publisher"),
-                    genre=book.get("genre"),
+                st.markdown(
+                    f"""
+                    <div class="book-card" style="text-align: center; padding-bottom: 0.8rem;">
+                        <div class="book-cover-placeholder" style="height: 120px; font-size: 2.5rem;">📖</div>
+                        <div class="book-card-title" style="font-size: 0.9rem;">{book['title'][:50]}{"…" if len(str(book['title'])) > 50 else ""}</div>
+                        <div class="book-card-author">by {book.get('author', 'Unknown')[:35]}{"…" if len(str(book.get('author', ''))) > 35 else ""}</div>
+                        <div>
+                            <span class="book-card-rating">{stars(book['avg_rating'])} {book['avg_rating']:.1f}</span>
+                        </div>
+                        <div class="book-card-meta">{format_number(int(book['rating_count']))} ratings{f" · {int(book['year'])}" if book.get('year') and book['year'] > 0 else ""}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
                 )
                 st.markdown("<br>", unsafe_allow_html=True)
 

@@ -14,8 +14,8 @@ import streamlit as st
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from src.config import APP_TITLE, PAGE_CONFIG
-from src.ui import apply_styling, render_hero, render_stat_card, sidebar_footer
+from src.config import APP_TITLE, COLORS, PAGE_CONFIG
+from src.ui import apply_styling, render_hero, render_stat_card, sidebar_footer, stars, format_number
 from src.data.loader import load_and_cache_data
 from src.preprocessing import preprocess_pipeline
 from src.recommenders.popularity import PopularityRecommender
@@ -47,6 +47,7 @@ if "initialized" not in st.session_state:
     st.session_state.collaborative = None
     st.session_state.collab_ready = False
     st.session_state._stats = None
+    st.session_state._dark_mode = False
 
 
 def load_data() -> None:
@@ -112,9 +113,8 @@ with st.sidebar:
         f"""
         <div style="text-align: center; padding: 1rem 0;">
             <div style="font-size: 3rem;">📚</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; 
-                 font-weight: 600; color: #00FFFF;">{APP_TITLE}</div>
-            <div style="font-size: 0.75rem; color: #9CA3AF;">~/.recommender</div>
+            <div style="font-size: 1.2rem; font-weight: 600; color: {COLORS['primary']};">{APP_TITLE}</div>
+            <div style="font-size: 0.75rem; color: {COLORS['text_secondary']};">Book Recommendation System</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -158,6 +158,18 @@ with st.sidebar:
         st.sidebar.markdown(f"- Ratings: **{s['n_ratings']:,}**")
         st.sidebar.markdown(f"- Users: **{s['n_users']:,}**")
 
+    # Theme toggle
+    st.sidebar.markdown("---")
+    dark_mode = st.sidebar.toggle(
+        "🌙 Dark mode",
+        value=st.session_state.get("_dark_mode", False),
+        key="_dark_mode_toggle",
+        help="Switch between light and dark theme",
+    )
+    if dark_mode != st.session_state.get("_dark_mode", False):
+        st.session_state._dark_mode = dark_mode
+        st.rerun()
+
     sidebar_footer()
 
 # ── Main Page ────────────────────────────────────────────────────────────────
@@ -183,22 +195,27 @@ if not st.session_state.initialized:
     st.markdown(
         f"""
         <div style="
-            background: #161B22;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, {COLORS['surface']}, {COLORS['background']});
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.05);
             text-align: center;
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid {COLORS['border']};
         ">
-            <div style="font-size: 1.2rem; font-weight: 600; color: #00FFFF; margin-bottom: 0.5rem;">
-                ~/get_started
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚀</div>
+            <div style="font-size: 1.3rem; font-weight: 600; color: {COLORS['primary']}; margin-bottom: 0.75rem;">
+                Ready to discover your next read?
             </div>
-            <div style="color: #9CA3AF; margin-bottom: 1rem;">
-                Click the button below to load the dataset and initialize 
-                the recommendation engine. Your first run will download data 
-                automatically.
+            <div style="color: {COLORS['text_secondary']}; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.95rem;">
+                Load the dataset and initialize the recommendation engine to get started.
+                Your first run will download the data automatically.
+            </div>
+            <div>
+                <span style="display: inline-block; background: {COLORS['primary']}10; padding: 0.25rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: {COLORS['text_secondary']}; margin: 0.2rem;">📚 10K books</span>
+                <span style="display: inline-block; background: {COLORS['primary']}10; padding: 0.25rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: {COLORS['text_secondary']}; margin: 0.2rem;">⭐ 6M ratings</span>
+                <span style="display: inline-block; background: {COLORS['primary']}10; padding: 0.25rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: {COLORS['text_secondary']}; margin: 0.2rem;">🤖 3 engines</span>
             </div>
         </div>
         """,
@@ -209,15 +226,14 @@ if not st.session_state.initialized:
 
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("🚀  Load Data & Initialize", use_container_width=True):
+        if st.button("🚀  Load Data & Initialize", use_container_width=True, type="primary"):
             load_data()
             st.rerun()
 
     st.markdown(
         f"""
-        <div style="text-align: center; margin-top: 2rem; color: #9CA3AF; font-size: 0.85rem;">
-            <p>The app will download the Book-Crossing dataset (~5MB) on first run.<br>
-            If download fails, synthetic data will be generated automatically.</p>
+        <div style="text-align: center; margin-top: 1.5rem; color: {COLORS['text_secondary']}; font-size: 0.82rem;">
+            <p>Downloads the Goodbooks-10k dataset (~5MB). If download fails, synthetic data is generated automatically.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -252,9 +268,20 @@ else:
         cols = st.columns(3)
         for i, (_, book) in enumerate(popular.iterrows()):
             with cols[i % 3]:
-                render_stat_card(
-                    f"★ {book['avg_rating']:.1f}",
-                    f"{book['title'][:40]}..." if len(str(book['title'])) > 40 else str(book['title']),
+                st.markdown(
+                    f"""
+                    <div class="book-card" style="text-align: center; padding: 1.2rem 0.8rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📖</div>
+                        <div class="book-card-title" style="font-size: 0.85rem;">{book['title'][:45]}{"…" if len(str(book['title'])) > 45 else ""}</div>
+                        <div style="margin-top: 0.3rem;">
+                            <span class="book-card-rating">{stars(book['avg_rating'])} {book['avg_rating']:.1f}</span>
+                        </div>
+                        <div style="font-size: 0.7rem; color: {COLORS['text_secondary']}; margin-top: 0.2rem;">
+                            {format_number(int(book['rating_count']))} ratings
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
                 )
     except Exception as e:
         st.warning(f"Could not load trending books: {e}")

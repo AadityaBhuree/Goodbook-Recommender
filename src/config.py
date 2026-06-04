@@ -57,17 +57,43 @@ APP_DESCRIPTION = (
     "analysis, and popularity insights."
 )
 
-COLORS = {
-    "primary": "#00FFFF",  # Cyan — headings, accents
-    "secondary": "#8B5CF6",  # Purple — secondary accents, borders
-    "accent": "#10B981",  # Emerald — recommendation cards, success
-    "background": "#0D1117",  # Near-black — page background
-    "surface": "#161B22",  # Dark card surface
-    "text": "#E5E7EB",  # Light gray — body text
-    "text_secondary": "#9CA3AF",  # Muted text
-    "error": "#EF4444",  # Red — errors
-    "rating": "#F59E0B",  # Amber — star ratings
+LIGHT_COLORS = {
+    "primary": "#2D5F6E",      # Deep teal — headings, accents
+    "secondary": "#C4956A",    # Warm copper — secondary accents
+    "accent": "#7A9E7E",       # Sage green — recommendation cards
+    "background": "#FCF9F5",   # Warm off-white paper — page background
+    "surface": "#FFFFFF",      # White card surface
+    "text": "#2D2A24",         # Warm dark — body text
+    "text_secondary": "#8B8174",  # Warm gray — muted text
+    "error": "#D14B4B",        # Warm red — errors
+    "rating": "#D4952B",       # Warm amber — star ratings
+    "border": "#EDE6D9",      # Warm beige border
+    "border_hover": "#D4C9B8", # Darker beige hover
 }
+
+DARK_COLORS = {
+    "primary": "#6BB4D0",      # Soft teal — headings, accents
+    "secondary": "#D4A574",    # Warm copper — secondary accents
+    "accent": "#8DBD8D",       # Sage green — recommendation cards
+    "background": "#1A1A1E",   # Dark page background
+    "surface": "#2A2723",      # Warm dark card surface
+    "text": "#E8E0D8",         # Warm light — body text
+    "text_secondary": "#A09888",  # Warm muted gray
+    "error": "#E06060",        # Warm red — errors
+    "rating": "#E0A030",       # Warm amber — star ratings
+    "border": "#3D3832",       # Dark warm border
+    "border_hover": "#5A5448", # Lighter dark hover
+}
+
+COLORS = dict(LIGHT_COLORS)  # Mutable copy, swapped at runtime via set_theme()
+
+
+def set_theme(dark: bool) -> None:
+    """Swap COLORS between light and dark mode in-place.
+    Called before rendering so all f-string references resolve to the right palette.
+    """
+    COLORS.clear()
+    COLORS.update(DARK_COLORS if dark else LIGHT_COLORS)
 
 # Streamlit page config
 PAGE_CONFIG = {

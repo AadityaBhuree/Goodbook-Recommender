@@ -5,7 +5,7 @@ from typing import Optional
 import pandas as pd
 import streamlit as st
 
-from src.config import APP_DESCRIPTION, APP_SUBTITLE, APP_TITLE, COLORS
+from src.config import APP_DESCRIPTION, APP_SUBTITLE, APP_TITLE, COLORS, set_theme
 
 # ── CSS Styling ──────────────────────────────────────────────────────────────
 
@@ -14,81 +14,120 @@ def get_custom_css() -> str:
     """Return the custom CSS for the app."""
     return f"""
     <style>
-        /* ── Main app styling ────────────────────────────────────── */
-        .stApp {{
-            background: {COLORS["background"]};
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* ── Page transition ─────────────────────────────────────── */
+        @keyframes fadeIn {{
+            from {{ opacity: 0; transform: translateY(6px); }}
+            to {{ opacity: 1; transform: translateY(0); }}
+        }}
+        .main > div {{
+            animation: fadeIn 0.35s ease-out;
         }}
 
-        /* ── Typography ──────────────────────────────────────────── */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        /* ── Base typography ─────────────────────────────────────── */
+        html {{ scroll-behavior: smooth; }}
 
         h1, h2, h3, h4, h5, h6 {{
             font-family: 'Inter', -apple-system, sans-serif !important;
             color: {COLORS["text"]} !important;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }}
 
-        p, li, div, span {{
-            color: {COLORS["text"]};
+        p, li, div, span {{ color: {COLORS["text"]}; }}
+
+        /* ── Active nav indicator ────────────────────────────────── */
+        section[data-testid="stSidebar"] a[aria-current="page"] {{
+            background: {COLORS["primary"]}10 !important;
+            border-left: 3px solid {COLORS["primary"]} !important;
+            border-radius: 0 8px 8px 0 !important;
+            font-weight: 600 !important;
         }}
 
-        code {{
-            font-family: 'JetBrains Mono', monospace !important;
-            background: rgba(0, 255, 255, 0.08) !important;
-            color: #00FFFF !important;
-            border-radius: 4px !important;
-            padding: 1px 5px !important;
+        /* ── Sidebar styling ─────────────────────────────────────── */
+        section[data-testid="stSidebar"] {{
+            background: {COLORS["surface"]};
+            border-right: 1px solid #EDE6D9;
+        }}
+        section[data-testid="stSidebar"] .stPageLink {{ 
+            margin: 0.15rem 0;
+            transition: opacity 0.15s;
+        }}
+        section[data-testid="stSidebar"] .stPageLink:hover {{
+            opacity: 0.8;
+        }}
+        section[data-testid="stSidebar"] .stPageLink a {{
+            border-radius: 8px !important;
+            transition: all 0.15s ease;
+        }}
+        section[data-testid="stSidebar"] .stButton > button {{
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.15s ease;
         }}
 
         /* ── Hero section ────────────────────────────────────────── */
         .hero-title {{
-            font-family: 'JetBrains Mono', monospace;
             font-size: 2.8rem;
             font-weight: 700;
-            color: {COLORS["primary"]};
+            color: {COLORS["text"]};
             margin-bottom: 0.5rem;
-            line-height: 1.2;
-            text-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
         }}
         .hero-subtitle {{
-            font-family: 'Inter', sans-serif;
-            font-size: 1.3rem;
-            color: {COLORS["text_secondary"]};
-            font-weight: 400;
+            font-size: 1.2rem;
+            color: {COLORS["secondary"]};
+            font-weight: 500;
             margin-bottom: 0.8rem;
         }}
         .hero-description {{
             font-size: 1rem;
             color: {COLORS["text_secondary"]};
             max-width: 600px;
-            line-height: 1.6;
+            line-height: 1.7;
+            margin: 0 auto;
         }}
 
         /* ── Book card ───────────────────────────────────────────── */
         .book-card {{
             background: {COLORS["surface"]};
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid #EDE6D9;
+            position: relative;
+            overflow: hidden;
         }}
+        .book-card::after {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, {COLORS["primary"]}, {COLORS["secondary"]});
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }}
+        .book-card:hover::after {{ opacity: 1; }}
         .book-card:hover {{
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 255, 255, 0.08);
-            border-color: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(45,95,110,0.1);
+            border-color: #D4C9B8;
         }}
         .book-card-title {{
-            font-family: 'Inter', sans-serif;
             font-weight: 600;
             font-size: 0.95rem;
             color: {COLORS["text"]};
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            line-height: 1.4;
         }}
         .book-card-author {{
             font-size: 0.8rem;
@@ -103,50 +142,71 @@ def get_custom_css() -> str:
             color: {COLORS["rating"]};
             font-weight: 600;
             font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }}
         .book-cover-placeholder {{
             width: 100%;
             height: 140px;
-            background: linear-gradient(135deg, rgba(0,255,255,0.05) 0%, rgba(139,92,246,0.08) 100%);
+            background: linear-gradient(135deg, #F5F0E8 0%, #F0F4EC 100%);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             margin-bottom: 0.7rem;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid #EDE6D9;
+            transition: transform 0.3s ease;
+        }}
+        .book-card:hover .book-cover-placeholder {{
+            transform: scale(1.02);
         }}
 
         /* ── Stats cards ─────────────────────────────────────────── */
         .stat-card {{
             background: {COLORS["surface"]};
-            border-radius: 10px;
-            padding: 1.3rem;
+            border-radius: 12px;
+            padding: 1.4rem 1rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border: 1px solid #EDE6D9;
             border-left: 3px solid {COLORS["primary"]};
+            transition: all 0.2s ease;
+        }}
+        .stat-card:hover {{
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-color: #D4C9B8;
         }}
         .stat-number {{
             font-size: 2rem;
             font-weight: 700;
             color: {COLORS["primary"]};
-            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.02em;
         }}
         .stat-label {{
             font-size: 0.8rem;
             color: {COLORS["text_secondary"]};
             margin-top: 0.2rem;
+            font-weight: 500;
         }}
 
         /* ── Section header ──────────────────────────────────────── */
         .section-header {{
-            font-family: 'JetBrains Mono', monospace;
             font-size: 1.3rem;
             font-weight: 600;
-            color: {COLORS["primary"]};
+            color: {COLORS["text"]};
             margin: 1.5rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #EDE6D9;
+            position: relative;
+        }}
+        .section-header::after {{
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: {COLORS["primary"]};
         }}
 
         /* ── Rating stars ────────────────────────────────────────── */
@@ -157,15 +217,22 @@ def get_custom_css() -> str:
 
         /* ── Recommendation card ─────────────────────────────────── */
         .rec-card {{
-            background: linear-gradient(135deg, {COLORS["surface"]}, #1A1F2E);
-            border-radius: 10px;
+            background: {COLORS["surface"]};
+            border-radius: 12px;
             padding: 1rem 1.2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             border-left: 3px solid {COLORS["accent"]};
-            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+            border: 1px solid #EDE6D9;
+            border-left-width: 3px;
+        }}
+        .rec-card:hover {{
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-color: #D4C9B8;
+            border-left-color: {COLORS["accent"]};
         }}
         .rec-rank {{
-            font-family: 'JetBrains Mono', monospace;
             font-size: 1.3rem;
             font-weight: 700;
             color: {COLORS["secondary"]};
@@ -180,56 +247,102 @@ def get_custom_css() -> str:
             color: {COLORS["text_secondary"]};
         }}
 
-        /* ── Buttons ─────────────────────────────────────────────── */
-        .stButton > button {{
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.2s;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            background: rgba(0, 255, 255, 0.05) !important;
-            color: {COLORS["text"]} !important;
-        }}
-        .stButton > button:hover {{
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.15);
-            border-color: {COLORS["primary"]};
-        }}
-
-        /* ── Sidebar ─────────────────────────────────────────────── */
-        section[data-testid="stSidebar"] {{
-            background: linear-gradient(180deg, {COLORS["surface"]} 0%, #111827 100%);
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }}
-        section[data-testid="stSidebar"] .stButton > button {{
-            width: 100%;
-        }}
-        section[data-testid="stSidebar"] .stMarkdown {{
-            color: {COLORS["text_secondary"]};
-        }}
-
-        /* ── Tabs ────────────────────────────────────────────────── */
-        .stTabs [data-baseweb="tab-list"] {{
-            gap: 2px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }}
-        .stTabs [data-baseweb="tab"] {{
-            border-radius: 6px 6px 0 0;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-            color: {COLORS["text_secondary"]} !important;
-        }}
-        .stTabs [aria-selected="true"] {{
-            background-color: {COLORS["surface"]} !important;
-            color: {COLORS["primary"]} !important;
-            border-top: 2px solid {COLORS["primary"]} !important;
-        }}
-
         /* ── Score bar ───────────────────────────────────────────── */
         .score-bar {{
             height: 4px;
             background: linear-gradient(90deg, {COLORS["secondary"]}, {COLORS["primary"]});
             border-radius: 2px;
             margin-top: 4px;
+            transition: width 0.5s ease;
+        }}
+
+        /* ── Tabs ────────────────────────────────────────────────── */
+        .stTabs [data-baseweb="tab-list"] {{
+            gap: 0;
+            border-bottom: 1px solid #EDE6D9;
+        }}
+        .stTabs [data-baseweb="tab"] {{
+            border-radius: 8px 8px 0 0;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            color: {COLORS["text_secondary"]} !important;
+            transition: all 0.15s ease;
+        }}
+        .stTabs [aria-selected="true"] {{
+            background: {COLORS["surface"]} !important;
+            color: {COLORS["primary"]} !important;
+            border-top: 2px solid {COLORS["primary"]} !important;
+        }}
+        .stTabs [data-baseweb="tab"]:hover {{
+            color: {COLORS["text"]} !important;
+        }}
+
+        /* ── Buttons ─────────────────────────────────────────────── */
+        .stButton > button {{
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            border: 1px solid #EDE6D9;
+        }}
+        .stButton > button:hover {{
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45,95,110,0.12);
+            border-color: {COLORS["primary"]};
+        }}
+        .stButton > button:active {{
+            transform: translateY(0);
+        }}
+
+        /* ── Form elements ───────────────────────────────────────── */
+        .stSelectbox, .stTextInput, .stSlider {{ 
+            color: {COLORS["text"]} !important;
+        }}
+        .stTextInput input, .stSelectbox div[data-baseweb="select"] > div {{
+            border-radius: 8px !important;
+            border-color: #EDE6D9 !important;
+            transition: border-color 0.15s ease;
+        }}
+        .stTextInput input:focus, .stSelectbox div[data-baseweb="select"] > div:focus-within {{
+            border-color: {COLORS["primary"]} !important;
+            box-shadow: 0 0 0 2px {COLORS["primary"]}15 !important;
+        }}
+
+        /* ── Spinner ─────────────────────────────────────────────── */
+        .stSpinner > div > div {{
+            border-color: {COLORS["primary"]} transparent transparent transparent !important;
+        }}
+
+        /* ── Progress bar ────────────────────────────────────────── */
+        .stProgress > div > div > div > div {{
+            background: linear-gradient(90deg, {COLORS["secondary"]}, {COLORS["primary"]}) !important;
+        }}
+
+        /* ── Expander ────────────────────────────────────────────── */
+        .stExpander {{
+            border: 1px solid #EDE6D9 !important;
+            border-radius: 8px !important;
+        }}
+
+        /* ── Info / Success / Warning boxes ──────────────────────── */
+        .stAlert {{
+            border-radius: 8px !important;
+            border: 1px solid #EDE6D9 !important;
+        }}
+
+        /* ── Custom scrollbar ────────────────────────────────────── */
+        ::-webkit-scrollbar {{
+            width: 6px;
+            height: 6px;
+        }}
+        ::-webkit-scrollbar-track {{
+            background: transparent;
+        }}
+        ::-webkit-scrollbar-thumb {{
+            background: #D4C9B8;
+            border-radius: 3px;
+        }}
+        ::-webkit-scrollbar-thumb:hover {{
+            background: #C4B9A8;
         }}
 
         /* ── Footer ──────────────────────────────────────────────── */
@@ -238,35 +351,8 @@ def get_custom_css() -> str:
             color: {COLORS["text_secondary"]};
             font-size: 0.78rem;
             padding: 2rem 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid #EDE6D9;
             margin-top: 3rem;
-        }}
-
-        /* ── Spinner ─────────────────────────────────────────────── */
-        .stSpinner > div > div {{
-            border-color: {COLORS["primary"]} transparent transparent transparent !important;
-        }}
-
-        /* ── Status / Info box ───────────────────────────────────── */
-        .stAlert {{
-            background: {COLORS["surface"]} !important;
-            border: 1px solid rgba(255,255,255,0.06) !important;
-            border-radius: 8px !important;
-        }}
-
-        /* ── Select box / Input ──────────────────────────────────── */
-        .stSelectbox, .stTextInput, .stSlider {{
-            color: {COLORS["text"]} !important;
-        }}
-
-        /* ── Progress bar ────────────────────────────────────────── */
-        .stProgress > div > div > div > div {{
-            background: linear-gradient(90deg, {COLORS["secondary"]}, {COLORS["primary"]}) !important;
-        }}
-
-        /* ── Dataframe ───────────────────────────────────────────── */
-        .stDataFrame {{
-            background: {COLORS["surface"]} !important;
         }}
     </style>
     """
@@ -301,13 +387,11 @@ def format_number(num: int) -> str:
 
 
 def render_hero() -> None:
-    """Render the hero section on the home page with banner SVG."""
+    """Render the hero section on the home page."""
     st.markdown(
         f"""
-        <div style="padding: 1rem 0; text-align: center;">
-            <img src="https://raw.githubusercontent.com/AadityaBhuree/Goodbook-Recommender/main/banner.svg"
-                 alt="~/.bookrecommender"
-                 style="width: 100%; max-width: 900px; border-radius: 8px; margin-bottom: 1.5rem;" />
+        <div style="padding: 2rem 0; text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 0.5rem;">📚</div>
             <div class="hero-title">{APP_TITLE}</div>
             <div class="hero-subtitle">{APP_SUBTITLE}</div>
             <div class="hero-description">{APP_DESCRIPTION}</div>
@@ -362,61 +446,11 @@ def render_book_card(
     )
 
 
-def render_book_card_detailed(
-    title: str,
-    author: str,
-    rating: float,
-    rating_count: int,
-    year: Optional[int] = None,
-    publisher: Optional[str] = None,
-    genre: Optional[str] = None,
-    description: Optional[str] = None,
-) -> None:
-    """Render a detailed book card for the explore page."""
-    year_str = f" · {int(year)}" if year and year > 0 else ""
-    pub_str = f" · {publisher}" if publisher and publisher != "Unknown Publisher" else ""
-    genre_str = f"<span style='background: {COLORS['secondary']}20; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; color: {COLORS['text_secondary']};'>{genre}</span>" if genre else ""
 
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        st.markdown(
-            f"""
-            <div style="
-                width: 100%;
-                aspect-ratio: 2/3;
-                background: linear-gradient(135deg, rgba(0,255,255,0.05) 0%, rgba(139,92,246,0.08) 100%);
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 4rem;
-                border: 1px solid rgba(255,255,255,0.06);
-            ">📚</div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with col2:
-        st.markdown(
-            f"""
-            <div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: {COLORS['text']};">{title}</div>
-                <div style="font-size: 0.9rem; color: {COLORS['text_secondary']}; margin: 0.3rem 0;">by <strong>{author}</strong></div>
-                <div style="margin: 0.3rem 0;">
-                    <span class="book-card-rating">{stars(rating)} {rating:.1f}</span>
-                    <span style="font-size: 0.8rem; color: {COLORS['rating']};">({format_number(rating_count)} ratings{year_str}{pub_str})</span>
-                </div>
-                <div style="margin: 0.3rem 0;">{genre_str}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
 
 
 def render_recommendation_row(rank: int, title: str, author: str, score: float, rating: float) -> None:
     """Render a single recommendation row."""
-    # Normalize score to a 0-100 percentage for the score bar.
-    # Scores typically fall in 0-1 range for similarity measures.
-    # We use a soft scale: clamp to 0-1 then multiply by 100.
     score_pct = max(0.0, min(score, 1.0)) * 100.0
     st.markdown(
         f"""
@@ -437,9 +471,76 @@ def render_recommendation_row(rank: int, title: str, author: str, score: float, 
     )
 
 
+def get_dark_css() -> str:
+    """Return dark mode CSS overrides."""
+    return f"""
+    <style id="dark-theme">
+        .stApp {{
+            background: {COLORS['background']} !important;
+        }}
+        section[data-testid="stSidebar"] {{
+            background: {COLORS['surface']} !important;
+            border-right-color: {COLORS['border']} !important;
+        }}
+        section[data-testid="stSidebar"] a[aria-current="page"] {{
+            background: {COLORS['primary']}15 !important;
+        }}
+        .book-card, .stat-card, .rec-card, .stAlert, .stExpander {{
+            border-color: {COLORS['border']} !important;
+        }}
+        .book-card:hover, .stat-card:hover, .rec-card:hover {{
+            border-color: {COLORS['border_hover']} !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+        }}
+        .stat-card:hover, .rec-card:hover {{
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+        }}
+        .book-cover-placeholder {{
+            border-color: {COLORS['border']} !important;
+            background: linear-gradient(135deg, #2A2723 0%, #2D3028 100%) !important;
+        }}
+        .section-header {{
+            border-bottom-color: {COLORS['border']} !important;
+        }}
+        .section-header::after {{
+            background: {COLORS['primary']} !important;
+        }}
+        .stTabs [data-baseweb="tab-list"] {{
+            border-bottom-color: {COLORS['border']} !important;
+        }}
+        .stTabs [aria-selected="true"] {{
+            background: {COLORS['surface']} !important;
+        }}
+        .footer {{
+            border-top-color: {COLORS['border']} !important;
+        }}
+        ::-webkit-scrollbar-thumb {{
+            background: {COLORS['border']} !important;
+        }}
+        ::-webkit-scrollbar-thumb:hover {{
+            background: {COLORS['border_hover']} !important;
+        }}
+        .stTextInput input, .stSelectbox div[data-baseweb="select"] > div {{
+            border-color: {COLORS['border']} !important;
+        }}
+        .stButton > button {{
+            border-color: {COLORS['border']} !important;
+        }}
+        .stAlert {{
+            background: {COLORS['surface']} !important;
+            color: {COLORS['text']} !important;
+        }}
+    </style>
+    """
+
+
 def apply_styling() -> None:
-    """Apply custom CSS to the Streamlit app."""
+    """Apply custom CSS to the Streamlit app and sync theme from session state."""
+    is_dark = st.session_state.get("_dark_mode", False)
+    set_theme(is_dark)
     st.markdown(get_custom_css(), unsafe_allow_html=True)
+    if is_dark:
+        st.markdown(get_dark_css(), unsafe_allow_html=True)
 
 
 def sidebar_footer() -> None:
@@ -447,7 +548,7 @@ def sidebar_footer() -> None:
     st.sidebar.markdown("---")
     st.sidebar.markdown(
         f"""
-        <div style="text-align: center; font-size: 0.72rem; color: #9CA3AF;">
+        <div style="text-align: center; font-size: 0.72rem; color: {COLORS['text_secondary']};">
             <p>Built with ❤️ using Streamlit &amp; scikit-learn</p>
             <p>{APP_TITLE} v1.0</p>
         </div>
