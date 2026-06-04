@@ -1,21 +1,22 @@
 <div align="center">
-<img width="100%" src="https://raw.githubusercontent.com/AadityaBhuree/Goodbook-Recommender/main/banner.svg" alt="~/.bookrecommender" />
+
+# 📚 BookRecommender
+
+**Discover your next great read with 3 ML-powered recommendation engines**
 
 [![Streamlit App](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=Streamlit&logoColor=white)](https://streamlit.io)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
 [![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/AadityaBhuree/Goodbook-Recommender?style=flat-square&logo=github&logoColor=white&color=00FFFF)](https://github.com/AadityaBhuree/Goodbook-Recommender/stargazers)
-[![Profile](https://img.shields.io/badge/Profile-AadityaBhuree-8B5CF6?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree)
-
-**Discover your next great read with 3 ML-powered recommendation engines**
+[![GitHub stars](https://img.shields.io/github/stars/AadityaBhuree/Goodbook-Recommender?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree/Goodbook-Recommender/stargazers)
+[![Profile](https://img.shields.io/badge/Profile-AadityaBhuree-2D5F6E?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree)
 
 </div>
 
 ---
 
-## `~/.quickstart`
+## 🚀 Quickstart
 
 ```bash
 # 1. Clone & enter
@@ -31,52 +32,34 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Opens at **http://localhost:8501** — or try the live demo at **[streamlit.app](https://aadityabhuree-goodbook-recommender-app-jqagvs.streamlit.app/)**.
+Opens at **http://localhost:8501**.
 
-On first run, it automatically downloads the Goodbooks-10k dataset (~6M ratings). If the download fails, a realistic synthetic dataset is generated instantly.
-
----
-
-## `~/.overview`
-
-**BookRecommender** combines three recommendation approaches into a dark-themed interactive dashboard. 10K books, 6M ratings, 53K users — all at your fingertips.
-
-| Area | Highlights |
-|---|---|
-| 🧠 **3 Engines** | Popularity (Bayesian), Content (TF-IDF + cosine), Collaborative (KNN) |
-| 📖 **Catalog** | Filter by year/rating, search title/author, sort 5 ways, paginated grid |
-| 🎨 **Dashboard** | Dark terminal theme, glassmorphism cards, hover animations |
-| 🤖 **Smart Load** | Auto-downloads Goodbooks-10k, pickle-cached, synthetic fallback |
-| ⚙️ **Configurable** | 10+ hyperparameters, theme colors, filtering thresholds |
+On first run, click **"Load Data & Initialize"** to download the Goodbooks-10k dataset (~6M ratings). If the download fails, a realistic synthetic dataset is generated instantly.
 
 ---
 
-## `~/.features`
+## ✨ Features
 
 ### 🏠 Home Dashboard
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  ~/.bookrecommender                                                 │
-│  ───────────────────────────────────────────────────────────────     │
-│                                                                     │
-│  ┌──────────┐  ┌──────────┐  ┌────────────┐  ┌──────────┐         │
-│  │  10,000  │  │  53,424  │  │ 5,976,479  │  │   4.2    │         │
-│  │  Books   │  │  Users   │  │  Ratings   │  │  Avg ★   │         │
-│  └──────────┘  └──────────┘  └────────────┘  └──────────┘         │
-│                                                                     │
-│  🔥 Trending Books  📍 Quick Actions                               │
-│  [Browse & Search]    [Get Personalized Recs]                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
+| Stat | Value |
+|---|---|
+| Books | **10,000** |
+| Users | **53,424** |
+| Ratings | **5,976,479** |
+| Avg Rating | **4.0 ★** |
 
-### 📖 Explore Books
+- **Trending Books** — Top-rated books previewed on the dashboard
+- **Quick Actions** — Navigate to Explore or Recommendations pages
+- **Sidebar Stats** — Dataset overview at a glance
+
+### 🔍 Explore Books
 
 - **Search** by title or author with live text filtering
 - **Filter** by publication year range and minimum rating (★ 3+ to ★ 8+)
 - **Sort** by Popularity, Rating, Title, or Year
 - **12 books per page** with dropdown pagination
-- **Detailed cards** — title, author, star rating, rating count, year, publisher, genre
+- **Book cards** — cover placeholder, title, author, star rating, rating count
 
 ### 🎯 Get Recommendations — 3 Engines
 
@@ -88,9 +71,47 @@ On first run, it automatically downloads the Goodbooks-10k dataset (~6M ratings)
 
 Each method returns ranked results with similarity scores, star ratings, and visual score bars.
 
+### 🌙 Dark Mode
+
+Toggle **"🌙 Dark mode"** in the sidebar to switch between light and dark themes. The entire UI adapts — backgrounds, cards, text, borders, scrollbars, tabs, and buttons all re-color consistently. The theme persists per session.
+
+### 📍 Active Nav Indicator
+
+The currently active page in the sidebar is highlighted with a teal left border and subtle background, so you always know which page you're on.
+
+### ✨ Page Transitions
+
+Content fades in with a gentle upward animation each time you navigate between pages.
+
 ---
 
-## `~/.stack`
+## 🎨 Theme
+
+### Light Mode
+
+| Token | Color | Hex |
+|---|---|---|
+| Primary | Deep teal | `#2D5F6E` |
+| Secondary | Warm copper | `#C4956A` |
+| Accent | Sage green | `#7A9E7E` |
+| Background | Warm off-white | `#FCF9F5` |
+| Surface | White | `#FFFFFF` |
+| Text | Warm dark | `#2D2A24` |
+
+### Dark Mode
+
+| Token | Color | Hex |
+|---|---|---|
+| Primary | Soft teal | `#6BB4D0` |
+| Secondary | Warm copper | `#D4A574` |
+| Accent | Sage green | `#8DBD8D` |
+| Background | Dark | `#1A1A1E` |
+| Surface | Warm dark | `#2A2723` |
+| Text | Warm light | `#E8E0D8` |
+
+---
+
+## 🛠️ Tech Stack
 
 | Category | Technology |
 |---|---|
@@ -105,7 +126,7 @@ Each method returns ranked results with similarity scores, star ratings, and vis
 
 ---
 
-## `~/.structure`
+## 📁 Project Structure
 
 ```
 book-recommender/
@@ -144,53 +165,44 @@ book-recommender/
 
 ---
 
-## `~/.engines`
+## ⚙️ Configuration
 
-### 🔥 Popularity-Based
+### Model Parameters (`src/config.py`)
 
-Bayesian weighted score — prevents books with a single perfect rating from dominating:
+| Parameter | Default | Description |
+|---|---|---|
+| `min_ratings_per_book` | 2 | Min ratings for a book in dataset |
+| `min_ratings_per_user` | 2 | Min ratings for a user included |
+| `content_similarity_top_k` | 20 | Top-K similar for content retrieval |
+| `collab_n_neighbors` | 20 | KNN neighbors for collaborative filtering |
+| `default_recommendations` | 12 | Default recommendations to display |
+| `synthetic_num_books` | 500 | Synthetic fallback book count |
+| `synthetic_num_ratings` | 15000 | Synthetic fallback rating count |
+
+### How the Engines Work
+
+**🔥 Popularity-Based** — Bayesian weighted score prevents books with a single perfect rating from dominating:
 
 ```python
 C = 50  # damping factor
 score = (avg_rating * rating_count + C * global_avg) / (rating_count + C)
 ```
 
-Books with few ratings are pulled toward the global average. Minimum `min_ratings` (default: 10) threshold.
+Books with few ratings are pulled toward the global average.
 
-### 📝 Content-Based
+**📝 Content-Based** — Text corpus from metadata (author, publisher, genre) is vectorized via `TfidfVectorizer` (5K features, unigrams+bigrams), then pairwise cosine similarity finds the closest matches.
 
-1. Text corpus from metadata (author, publisher, genre)
-2. Vectorized via `TfidfVectorizer` (5K features, unigrams+bigrams, English stop words)
-3. Pairwise cosine similarity across the entire catalog
-4. Top-N most similar books returned (seed excluded)
-
-```python
-self._vectorizer = TfidfVectorizer(max_features=5000, stop_words="english", ngram_range=(1, 2))
-self._similarity_matrix = cosine_similarity(self._vectorizer.fit_transform(content_features))
-```
-
-### 👥 Collaborative Filtering
-
-1. User-item rating matrix built via pivot table
-2. Two KNN models with cosine distance (brute-force):
-   - **Item-based**: books similar to a given book by rating patterns
-   - **User-based**: similar users' enjoyed books
-3. Top-N unread books sorted by weighted similarity
-
-```python
-self._user_knn = NearestNeighbors(n_neighbors=20, metric="cosine", algorithm="brute")
-self._user_knn.fit(csr_matrix(self._user_item_matrix.values))
-```
+**👥 Collaborative Filtering** — A user-item rating matrix is built via pivot table, then KNN with cosine distance finds similar books based on rating patterns.
 
 ---
 
-## `~/.dataset`
+## 📊 Dataset
 
 ### Goodbooks-10k (Primary)
 
 | Stat | Value |
 |---|---|
-| Books | **10,000** — real titles, authors, cover images |
+| Books | **10,000** — real titles, authors, cover URLs |
 | Ratings | **5,976,479** (1–5 scale) |
 | Users | **53,424** |
 | Source | [zygmuntz/goodbooks-10k](https://github.com/zygmuntz/goodbooks-10k) |
@@ -205,39 +217,7 @@ self._user_knn.fit(csr_matrix(self._user_item_matrix.values))
 
 ---
 
-## `~/.config`
-
-### Model Parameters (`src/config.py`)
-
-| Parameter | Default | Description |
-|---|---|---|
-| `min_ratings_per_book` | 2 | Min ratings for a book in dataset |
-| `min_ratings_per_user` | 2 | Min ratings for a user included |
-| `content_similarity_top_k` | 20 | Top-K similar for content retrieval |
-| `collab_n_neighbors` | 20 | KNN neighbors for collaborative filtering |
-| `default_recommendations` | 12 | Default recommendations to display |
-| `synthetic_num_books` | 500 | Synthetic fallback book count |
-| `synthetic_num_ratings` | 15000 | Synthetic fallback rating count |
-
-### Theme Colors (terminal dark)
-
-```python
-COLORS = {
-    "primary": "#00FFFF",      # Cyan — headings, accents
-    "secondary": "#8B5CF6",    # Purple — secondary accents
-    "accent": "#10B981",       # Emerald — recommendation cards
-    "background": "#0D1117",   # Near-black — page background
-    "surface": "#161B22",      # Dark card surface
-    "text": "#E5E7EB",         # Light gray — body text
-    "text_secondary": "#9CA3AF", # Muted text
-    "error": "#EF4444",        # Red — errors
-    "rating": "#F59E0B",       # Amber — star ratings
-}
-```
-
----
-
-## `~/.deploy`
+## 🚢 Deploy
 
 Deploy on [Streamlit Cloud](https://share.streamlit.io) for free:
 
@@ -250,18 +230,18 @@ Pre-configured with `.streamlit/config.toml` and `requirements.txt`.
 
 ---
 
-## `~/.roadmap`
+## 🗺️ Roadmap
 
-- [x] **v1.0** — Core recommendation engines + dashboard
+- [x] **v1.0** — Core recommendation engines + dark terminal dashboard
 - [x] **v1.1** — On-demand collaborative filtering, cached filters, smooth pagination
+- [x] **v1.2** — Warm-modern light theme redesign, dark mode toggle, nav indicator, page transitions
 - [ ] **Automated test suite** — pytest with coverage
-- [ ] **User-based CF** in the UI (backend exists)
 - [ ] **Docker support** — `Dockerfile` + `docker-compose.yml`
 - [ ] **CI/CD** — GitHub Actions for linting + testing
 
 ---
 
-## `~/.contributing`
+## 🤝 Contributing
 
 1. **Fork** the repository
 2. Create a feature branch: `git checkout -b feature/AmazingFeature`
@@ -271,13 +251,13 @@ Pre-configured with `.streamlit/config.toml` and `requirements.txt`.
 
 ---
 
-## `~/.license`
+## 📄 License
 
 Distributed under the **MIT License**. Goodbooks-10k dataset available for research use per its original license.
 
 ---
 
-## `~/.acknowledgments`
+## 🙏 Acknowledgments
 
 - **[Zygmunt Zając](https://github.com/zygmuntz)** — Goodbooks-10k dataset
 - **[scikit-learn](https://scikit-learn.org)** — ML framework powering all recommendations
@@ -287,10 +267,6 @@ Distributed under the **MIT License**. Goodbooks-10k dataset available for resea
 ---
 
 <div align="center">
-
-```
-⚡ print("Hello, World!")  —  Let's build something awesome.
-```
 
 [![Star](https://img.shields.io/badge/⭐_Star_if_useful-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree/Goodbook-Recommender)
 [![Fork](https://img.shields.io/badge/🍴_Fork-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/AadityaBhuree/Goodbook-Recommender/fork)
