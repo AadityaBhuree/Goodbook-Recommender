@@ -32,7 +32,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Opens at **http://localhost:8501**.
+Opens at **http://localhost:8501** once you setup , or can see https://aadityabhuree-goodbook-recommender-app-jqagvs.streamlit.app/ here.
 
 On first run, click **"Load Data & Initialize"** to download the Goodbooks-10k dataset (~6M ratings). If the download fails, a realistic synthetic dataset is generated instantly.
 
